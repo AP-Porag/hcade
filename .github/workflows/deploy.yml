@@ -103,13 +103,14 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SSH_PORT }}
+          port: 65002
           script: |
             cd /home/u241149697/domains/madbrain.dev/public_html/hcade
 
+            /opt/alt/php84/usr/bin/php artisan config:clear
+            /opt/alt/php84/usr/bin/php artisan cache:clear
             /opt/alt/php84/usr/bin/php artisan migrate:fresh --seed
             /opt/alt/php84/usr/bin/php artisan storage:link || true
-            /opt/alt/php84/usr/bin/php artisan cache:clear
             /opt/alt/php84/usr/bin/php artisan view:clear
             /opt/alt/php84/usr/bin/php artisan route:clear
             /opt/alt/php84/usr/bin/php artisan optimize
