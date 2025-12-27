@@ -53,17 +53,49 @@ jobs:
       - name: ⚙️ Prepare .env
         run: php -r "file_exists('.env') || copy('.env.staging', '.env');"
 
-      - name: 🚀 Deploy to Hostinger via SCP (SSH)
+#      - name: 🚀 Deploy to Hostinger via SCP (SSH)
+#        uses: appleboy/scp-action@v0.1.7
+#        with:
+#          host: ${{ secrets.SSH_HOST }}
+#          username: ${{ secrets.SSH_USERNAME }}
+#          key: ${{ secrets.SSH_PRIVATE_KEY }}
+#          port: ${{ secrets.SSH_PORT }}
+#          source: "."
+#          target: "/home/u241149697/domains/madbrain.dev/public_html/hcade"
+#          rm: false
+#          strip_components: 0
+
+      - name: 📦 Create deploy archive
+        run: |
+          zip -r deploy.zip . \
+            -x ".git/*" \
+            -x ".github/*" \
+            -x "node_modules/*" \
+            -x "tests/*" \
+            -x "storage/logs/*" \
+            -x ".env"
+
+      - name: 🚀 Upload archive
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
+          host: madbrain.dev
+          username: u241149697
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          source: "."
-          target: "/home/u241149697/domains/madbrain.dev/public_html/hcade"
-          rm: false
-          strip_components: 0
+          port: 65002
+          source: deploy.zip
+          target: /home/u241149697/domains/madbrain.dev/public_html/hcade
+
+      - name: 🧩 Extract on server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: madbrain.dev
+          username: u241149697
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 65002
+          script: |
+            cd /home/u241149697/domains/madbrain.dev/public_html/hcade
+            unzip -o deploy.zip
+            rm deploy.zip
 
       - name: ⚙️ Run Laravel Artisan Commands
         uses: appleboy/ssh-action@v1.0.3
