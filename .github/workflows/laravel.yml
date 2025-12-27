@@ -1,0 +1,60 @@
+on:
+  push:
+    branches: [ main ]
+
+name: 🚀 Deploy website on push
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v2.3.2
+
+      - name: Install Composer Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+#      - name: Install Composer Dependencies
+#        run: composer update
+
+      - name: Install NPM Dependencies
+        run: npm install
+
+      - name: Copy .env
+        #        run: php -r "file_exists('.env') || copy('.env.staging', '.env');"
+        run: php -r "copy('.env.staging', '.env');"
+
+      #      - name: Fresh Database Seeding
+      #        run: php artisan migrate:fresh --seed
+
+      #      - name: Create storage symlink file
+      #        run: php artisan storage:link
+
+#      - name: Config Clearing
+#        run: php artisan config:clear
+#
+#      - name: Cache Clearing
+#        run: php artisan cache:clear
+#
+#      - name: Route Cache Clearing
+#        run: php artisan route:clear
+#
+#      - name: View Cache Clearing
+#        run: php artisan view:clear
+#
+#      - name: Clearing All Cache
+#        run: php artisan optimize:clear
+
+
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        with:
+          server: ${{ secrets.FTP_HOST_NAME }}
+          username: ${{ secrets.FTP_USER_NAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+
+      - name: Binding JS
+        run: npm run prod
+
+#      - name: Fresh Database Seeding
+#        run: php artisan migrate:fresh --seed
