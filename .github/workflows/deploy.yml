@@ -56,10 +56,10 @@ jobs:
       - name: 🚀 Deploy to Hostinger via SCP (SSH)
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: madbrain.dev
-          username: u241149697
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 65002
+          port: ${{ secrets.SSH_PORT }}
           source: "."
           target: "/home/u241149697/domains/madbrain.dev/public_html/hcade"
           rm: false
