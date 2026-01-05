@@ -6,11 +6,12 @@ import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import {
     LayoutGrid,
-    UserCog,
-    SquareStack,
-    ListChecks,
-    NotebookPen,
-    CircleDollarSign, Tablet
+    Shield,
+    Users,
+    Upload,
+    Search,
+    Home,
+    TrendingUp,
 } from 'lucide-react';
 import AppLogo from './app-logo';
 
@@ -21,35 +22,36 @@ const mainNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
-        title: 'Users',
-        href: '/users',
-        icon: UserCog,
+        title: 'Administration',
+        icon: Shield,
+        children: [
+            {
+                title: 'Users',
+                href: '/users',
+                icon: Users,
+            },
+            {
+                title: 'Data Import',
+                href: '/data-import',
+                icon: Upload,
+            },
+        ],
     },
-    // {
-    //     title: 'Categories',
-    //     href: '/categories',
-    //     icon: SquareStack,
-    // },
-    // {
-    //     title: 'Items',
-    //     href: '/item',
-    //     icon: ListChecks,
-    // },
-    // {
-    //     title: 'Tables',
-    //     href: '/tables',
-    //     icon: Tablet,
-    // },
-    // {
-    //     title: 'Orders',
-    //     href: '/orders',
-    //     icon: NotebookPen,
-    // },
-    // {
-    //     title: 'Payments',
-    //     href: '/payments',
-    //     icon: CircleDollarSign,
-    // },
+    {
+        title: 'Search',
+        href: '/search',
+        icon: Search,
+    },
+    {
+        title: 'Properties',
+        href: '/properties',
+        icon: Home,
+    },
+    {
+        title: 'Market Insights',
+        href: '/market-insights',
+        icon: TrendingUp,
+    },
 ];
 
 const footerNavItems: NavItem[] = [
