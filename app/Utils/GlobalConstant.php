@@ -25,4 +25,6 @@ class GlobalConstant
     // UI
     public const FLASH_SUCCESS = 'success';
     public const FLASH_ERROR = 'error';
+
+    public const DEFAULT_TAX_YEAR = 2025;
 }

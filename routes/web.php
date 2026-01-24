@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\Domain\DomainSyncController;
+use App\Http\Controllers\Admin\Import\ImportDataController;
 use App\Http\Controllers\Admin\User\UserController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +27,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     Route::resource('users', UserController::class);
+
+//    Route::post('/admin/import/sync-properties', [DomainSyncController::class, 'syncProperties']);
+
+    Route::get('/data-import', [ImportDataController::class, 'index']);
+    Route::post('/data-import/sync-domain', [ImportDataController::class, 'syncDomain']);
 });
 
 require __DIR__.'/settings.php';
