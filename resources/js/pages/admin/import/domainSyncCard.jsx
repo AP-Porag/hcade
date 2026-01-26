@@ -5,7 +5,7 @@ import { router, usePage } from '@inertiajs/react';
 import axios from 'axios';
 import { AlertTriangle, Database, Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import SyncProgressModal from './SyncProgressModal';
+import SyncProgressModal from './syncProgressModal.jsx';
 
 export default function DomainSyncCard({ availableYears, defaultYear }) {
     const { props } = usePage();
