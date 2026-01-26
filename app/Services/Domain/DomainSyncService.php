@@ -83,14 +83,19 @@ use DB;
 //    }
 //}
 
+
+//        BuildingStyleSyncService::class,
+//        BuildingStyleUpdateService::class,
+//        StateClassSyncService::class,
+//        AllowedStateClassSyncService::class,
+//        PropertySyncService::class,
+//        LandUseCodeSyncService::class,
+//        MarketAreaSyncService::class,
+//        NeighborhoodSyncService::class,
 class DomainSyncService
 {
     protected array $services = [
-        BuildingStyleSyncService::class,
-        BuildingStyleUpdateService::class,
-        StateClassSyncService::class,
-        AllowedStateClassSyncService::class,
-        PropertySyncService::class,
+        StateCategorySyncService::class,
     ];
 
     public function sync(int $taxYear, SyncLog $log): void

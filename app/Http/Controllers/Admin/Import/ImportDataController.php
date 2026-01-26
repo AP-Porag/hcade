@@ -18,23 +18,27 @@ class ImportDataController extends Controller
     public function index()
     {
 
-        $years = DB::table('raw_real_accts')
-            ->whereNotNull('yr')
-            ->distinct()
-            ->orderByDesc('yr')
-            ->pluck('yr')
-            ->values()
-            ->toArray();
+        //TODO remove this if when raw table also available on server.
+        if (DB::table('raw_real_accts')){
+            $years = DB::table('raw_real_accts')
+                ->whereNotNull('yr')
+                ->distinct()
+                ->orderByDesc('yr')
+                ->pluck('yr')
+                ->values()
+                ->toArray();
 
-        $runningLog = SyncLog::where('status', 'running')->first();
+            $runningLog = SyncLog::where('status', 'running')->first();
 
-        if ($runningLog) {
-            return Inertia::render('admin/import/index', [
-                'availableYears' => $years,
-                'defaultYear'    => $years[0] ?? GlobalConstant::DEFAULT_TAX_YEAR,
-                'sync_log_id' => $runningLog->id,
-            ]);
+            if ($runningLog) {
+                return Inertia::render('admin/import/index', [
+                    'availableYears' => $years,
+                    'defaultYear'    => $years[0] ?? GlobalConstant::DEFAULT_TAX_YEAR,
+                    'sync_log_id' => $runningLog->id,
+                ]);
+            }
         }
+
 
         return Inertia::render('admin/import/index', [
             'availableYears' => $years,
