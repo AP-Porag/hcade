@@ -1,6 +1,6 @@
 import { Head } from '@inertiajs/react'
 import AppLayout from '@/layouts/app-layout'
-import DomainSyncCard from './DomainSyncCard'
+import DomainSyncCard from './domainSyncCard.jsx'
 import RawDataImportCard from './rawDataImportCard.jsx'
 
 const breadcrumbs = [
