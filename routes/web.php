@@ -31,8 +31,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 //    Route::post('/admin/import/sync-properties', [DomainSyncController::class, 'syncProperties']);
 
     Route::get('/data-import', [ImportDataController::class, 'index']);
-    Route::post('/data-import/sync-domain', [ImportDataController::class, 'syncDomain']);
+    Route::post('/data-import/sync-domain', [ImportDataController::class, 'syncDomain'])->name('data-import.sync-domain');;
+    Route::get('/data-import/sync-status/{id}', [ImportDataController::class, 'syncStatus'])->name('data-import.sync-status');
 });
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
+

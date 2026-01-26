@@ -13,10 +13,17 @@ return new class extends Migration
     {
         Schema::create('building_styles', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->unique();        // 101
-            $table->string('description');           // Residential 1 Family
-            $table->string('mapped_state_class')->nullable();   // A1, B1 (derived)
-            $table->string('is_allowed')->default(false);   // A1, B1 (derived)
+
+            // From RAW: Code
+            $table->string('code')->unique();
+
+            // From RAW: Description
+            $table->string('description');
+
+            // Business logic (added later, but schema-ready)
+            $table->string('mapped_state_class')->nullable();
+            $table->boolean('is_allowed')->default(false);
+
             $table->timestamps();
         });
     }

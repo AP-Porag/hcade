@@ -13,23 +13,21 @@ return new class extends Migration
     {
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
-            $table->string('acct', 20);
+
+            $table->string('acct');
             $table->integer('tax_year');
 
-            // Address (structured)
-            $table->string('site_street')->nullable();
-            $table->string('site_city')->nullable();
-            $table->string('site_state', 10)->nullable();
-            $table->string('site_zip', 20)->nullable();
+            // Site address
+            $table->string('site_addr_1')->nullable();
+            $table->string('site_addr_2')->nullable();
+            $table->string('site_addr_3')->nullable();
 
-            $table->string('mail_street')->nullable();
+            // Mailing address
+            $table->string('mail_addr_1')->nullable();
+            $table->string('mail_addr_2')->nullable();
             $table->string('mail_city')->nullable();
             $table->string('mail_state', 10)->nullable();
             $table->string('mail_zip', 20)->nullable();
-
-            // Ownership summary
-            $table->string('owner_name_current')->nullable();
-            $table->boolean('owner_occupied')->default(false);
 
             // Classification
             $table->string('state_class')->nullable();
@@ -38,15 +36,16 @@ return new class extends Migration
             $table->string('market_area_1')->nullable();
             $table->string('market_area_2')->nullable();
 
-            // Physical
-            $table->decimal('land_area', 12, 2)->nullable();
-            $table->decimal('building_area', 12, 2)->nullable();
-            $table->decimal('acreage', 12, 4)->nullable();
+            // Area
+            $table->decimal('land_ar', 14, 2)->nullable();
+            $table->decimal('bld_ar', 14, 2)->nullable();
+            $table->decimal('acreage', 14, 4)->nullable();
 
             // Legal
             $table->text('legal_description')->nullable();
 
             $table->boolean('is_active')->default(true);
+
             $table->timestamps();
 
             $table->unique(['acct', 'tax_year']);

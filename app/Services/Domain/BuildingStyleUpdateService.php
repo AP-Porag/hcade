@@ -12,7 +12,7 @@ class BuildingStyleUpdateService
      * Update building_styles from local CSV
      * Path is fixed by design (no UI upload)
      */
-    public function run(): void
+    public function sync(): void
     {
         $filePath = 'D:/HCAD - Data/building.csv';
 
@@ -25,20 +25,31 @@ class BuildingStyleUpdateService
             $csv = Reader::createFromPath($filePath, 'r');
             $csv->setHeaderOffset(0); // first row = header
 
+            $payload = [];
+
             foreach ($csv->getRecords() as $row) {
                 $code = trim($row['code'] ?? '');
+
                 if ($code === '') {
                     continue;
                 }
 
-                $isAllowed = strtolower(trim($row['is_allowed'] ?? '')) === 'x';
+                $payload[] = [
+                    'code'               => $code,
+                    'description'        => trim($row['description'] ?? null),
+                    'mapped_state_class' => trim($row['mapped_state_class'] ?? null),
+                    'is_allowed'         => strtolower(trim($row['is_allowed'] ?? '')) === 'x',
+                ];
+            }
 
-                BuildingStyle::updateOrCreate(
-                    ['code' => $code],
+            if (!empty($payload)) {
+                BuildingStyle::upsert(
+                    $payload,
+                    ['code'], // unique key
                     [
-                        'description' => trim($row['description'] ?? null),
-                        'mapped_state_class' => trim($row['mapped_state_class'] ?? null),
-                        'is_allowed' => $isAllowed,
+                        'description',
+                        'mapped_state_class',
+                        'is_allowed',
                     ]
                 );
             }

@@ -13,9 +13,16 @@ return new class extends Migration
     {
         Schema::create('state_classes', function (Blueprint $table) {
             $table->id();
+
+            // RAW: Code
             $table->string('code')->unique();
-            $table->string('description');      // Residential Single Family
-            $table->string('dept')->nullable(); // A1, B1, C1
+
+            // RAW: Dept (grouping, NOT unique)
+            $table->string('dept')->index();
+
+            // RAW: Description
+            $table->string('description');
+
             $table->timestamps();
         });
     }

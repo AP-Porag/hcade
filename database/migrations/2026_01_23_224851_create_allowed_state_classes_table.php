@@ -13,14 +13,18 @@ return new class extends Migration
     {
         Schema::create('allowed_state_classes', function (Blueprint $table) {
             $table->id();
-            $table->string('state_class_code')->unique(); // A1, B1, C1
+
+            // FK → state_classes.code
+            $table->string('state_class_code')->unique();
+
             $table->boolean('is_allowed')->default(false);
+
             $table->timestamps();
 
             $table->foreign('state_class_code')
                 ->references('code')
                 ->on('state_classes')
-                ->cascadeOnDelete();
+                ->onDelete('cascade');
         });
     }
 

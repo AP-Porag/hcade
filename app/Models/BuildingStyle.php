@@ -4,7 +4,12 @@ namespace App\Models;
 
 class BuildingStyle extends BaseModel
 {
-    protected $fillable = ['code','description','mapped_state_class','is_allowed'];
+    protected $fillable = [
+        'code',
+        'description',
+        'mapped_state_class',
+        'is_allowed',
+    ];
 
     public function property()
     {
